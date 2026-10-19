@@ -90,19 +90,44 @@ if st.button("Add task") and task_pet is not None:
 
 tasks = owner.get_all_tasks()
 if tasks:
-    st.write("Current tasks:")
-    st.table(
-        [
-            {
-                "pet": pet.name,
-                "task": task.description,
-                "duration_minutes": task.time,
-                "priority": getattr(task, "priority", "medium"),
-            }
-            for pet in owner.list_pets()
-            for task in pet.list_tasks()
-        ]
+    scheduler = Scheduler(owner)
+    task_view = st.selectbox(
+        "Show tasks",
+        ["All", "Incomplete", "Completed"],
     )
+    completion_filter = {
+        "All": None,
+        "Incomplete": False,
+        "Completed": True,
+    }[task_view]
+    visible_tasks = scheduler.sort_by_time(
+        scheduler.filter_tasks(completed=completion_filter)
+    )
+
+    st.write(f"{task_view} tasks:")
+    if visible_tasks:
+        st.table(
+            [
+                {
+                    "pet": next(
+                        pet.name
+                        for pet in owner.list_pets()
+                        if task in pet.list_tasks()
+                    ),
+                    "task": task.description,
+                    "duration_minutes": task.time,
+                    "priority": getattr(task, "priority", "medium"),
+                    "status": "complete" if task.completed else "incomplete",
+                }
+                for task in visible_tasks
+            ]
+        )
+    else:
+        st.info(f"No {task_view.lower()} tasks.")
+
+    conflicts = scheduler.detect_conflicts()
+    for conflict in conflicts:
+        st.warning(conflict + " Consider changing one task's start time.")
 else:
     st.info("No tasks yet. Add one above.")
 
@@ -112,21 +137,30 @@ st.subheader("Build Schedule")
 st.caption("The scheduler selects incomplete tasks by priority while respecting available time.")
 
 if st.button("Generate schedule"):
-    plan = Scheduler(owner).generate_plan()
+    scheduler = Scheduler(owner)
+    plan = scheduler.generate_plan()
     st.write("Today's schedule:")
     if plan.scheduled_tasks:
         st.table(
             [
                 {
+                    "pet": next(
+                        pet.name
+                        for pet in owner.list_pets()
+                        if task in pet.list_tasks()
+                    ),
                     "task": task.description,
                     "duration_minutes": task.time,
+                    "priority": getattr(task, "priority", "medium"),
                     "frequency": task.frequency,
                 }
                 for task in plan.scheduled_tasks
             ]
         )
-        st.write(f"Total: {plan.calculate_total_time()} minutes")
-        st.write(f"Remaining: {plan.remaining_minutes} minutes")
-        st.caption(Scheduler(owner).explain_choices())
+        st.success(
+            f"Scheduled {plan.calculate_total_time()} minutes. "
+            f"{plan.remaining_minutes} minutes remain."
+        )
+        st.caption(scheduler.explain_choices())
     else:
         st.info("No incomplete tasks fit within the available time.")

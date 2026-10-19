@@ -1,0 +1,81 @@
+classDiagram
+    class Owner {
+        +String name
+        +int available_minutes
+        +String preferences
+        +List~Pet~ pets
+        +update_availability(int minutes)
+        +set_preferences(String preferences)
+        +add_pet(Pet pet)
+        +remove_pet(Pet pet)
+        +list_pets() List~Pet~
+        +get_all_tasks() List~Task~
+    }
+
+    class Pet {
+        +String name
+        +String species
+        +String breed
+        +int age
+        +Owner owner
+        +List~Task~ tasks
+        +add_task(Task task)
+        +remove_task(Task task)
+        +mark_task_complete(Task task, date completed_on) Task
+        +list_tasks() List~Task~
+    }
+
+    class Task {
+        +String description
+        +int time
+        +String frequency
+        +bool completed
+        +date due_date
+        +String start_time
+        +mark_complete(date completed_on) Task
+        +update_details(String description, int time, String frequency)
+        +is_valid() bool
+        +name String
+        +duration_minutes int
+        +recurrence String
+    }
+
+    class CareTask {
+        +String priority
+        +String category
+        +CareTask(String name, int duration_minutes, String priority, String category, String recurrence)
+    }
+
+    class DailyPlan {
+        +PetOrOwner pet
+        +List~Task~ scheduled_tasks
+        +int available_minutes
+        +int remaining_minutes
+        +add_task(Task task)
+        +remove_task(Task task)
+        +calculate_total_time() int
+        +display_plan() String
+    }
+
+    class Scheduler {
+        +Owner owner
+        +String owner_constraints
+        +int daily_time_limit
+        +sort_by_time(List~Task~ tasks) List~Task~
+        +filter_tasks(bool completed, String pet_name) List~Task~
+        +mark_task_complete(Task task, date completed_on) Task
+        +detect_conflicts(date as_of) List~String~
+        +sort_tasks_by_priority() List~Task~
+        +filter_tasks_by_time() List~Task~
+        +generate_plan() DailyPlan
+        +explain_choices() String
+    }
+
+    CareTask --|> Task : extends
+    Owner "1" *-- "0..*" Pet : owns
+    Pet "1" *-- "0..*" Task : contains
+    Scheduler --> Owner : schedules for
+    Scheduler --> DailyPlan : generates
+    DailyPlan "1" o-- "0..*" Task : schedules
+    DailyPlan --> Pet : may represent
+    DailyPlan --> Owner : may represent
