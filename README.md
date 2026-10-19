@@ -22,6 +22,10 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Implementation Summary
+
+PawPal+ uses `Owner`, `Pet`, and `Task` objects to store care information. `Owner` manages pets and their tasks, while `Scheduler` sorts tasks by priority and selects incomplete tasks that fit the owner's available time. `DailyPlan` stores the selected tasks, tracks remaining time, and displays the schedule. The `CareTask` class preserves the original UML naming while extending the simpler `Task` model.
+
 ## Getting started
 
 ### Setup
@@ -44,14 +48,15 @@ pip install -r requirements.txt
 
 ## 🖥️ Sample Output
 
-Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
+Output from running `python main.py`:
 
 ```
-# e.g.:
-# Daily plan for Biscuit (Golden Retriever):
-#   08:00 — Morning walk (30 min) [priority: high]
-#   09:00 — Feeding (10 min) [priority: high]
-#   ...
+Today's Schedule
+- Morning walk: 20 minutes (daily)
+- Brush coat: 15 minutes (weekly)
+- Feed breakfast: 10 minutes (daily)
+Total scheduled time: 45 minutes
+Remaining time: 15 minutes
 ```
 
 ## 🧪 Testing PawPal+

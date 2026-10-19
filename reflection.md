@@ -7,7 +7,7 @@
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
-The initial design centered on three core actions for the user. First, the user can enter basic information about themselves and their pet. Next, the user can add or edit pet-care tasks, including each task's duration and priority. Finally, the user can generate and review a daily care plan that organizes tasks according to the time available, their priorities, and other preferences.
+The initial design included five classes. `Owner` stores the owner's information, available time, and preferences. `Pet` stores the pet's information and manages its care tasks. `CareTask` represents an activity with a duration, priority, category, recurrence, and completion status. `Scheduler` applies constraints and priorities to organize tasks, while `DailyPlan` stores and displays the selected tasks for the day.
 
 **b. Design changes**
 
@@ -37,10 +37,14 @@ The initial design centered on three core actions for the user. First, the user 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
 - What kinds of prompts or questions were most helpful?
 
+I used AI to brainstorm the system objects, create the UML diagram, generate the class skeleton, review relationships, and add documentation. Prompts that listed the project requirements and asked for concrete attributes, methods, and relationships were the most helpful.
+
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
 - How did you evaluate or verify what the AI suggested?
+
+The AI suggested that `Owner` should track its pets and that `Scheduler` should use the owner's task collection instead of maintaining a separate source of truth. I accepted those suggestions because they matched the UML relationships, then verified the result by reviewing the code, instantiating the classes, and running the pytest suite. I kept the scheduling logic as a simple priority-and-time filter rather than adding unneeded complexity.
 
 ---
 
