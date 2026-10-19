@@ -63,17 +63,34 @@ Remaining time: 15 minutes
 
 ```bash
 # Run the full test suite:
-pytest
+python -m pytest
 
 # Run with coverage:
 pytest --cov
 ```
 
-Sample test output:
+The test suite covers task validation, sorting and filtering, daily plan limits,
+daily and weekly recurring tasks, non-recurring tasks, and conflict detection
+for active, completed, and future-dated tasks.
+
+Successful test output:
 
 ```
-# Paste your pytest output here
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/hannarosekellenberger/Documents/CodePath/AI110/Project2/ai110-module2show-pawpal-starter
+plugins: anyio-4.12.1, Faker-40.39.0
+collected 12 items
+
+tests/test_pawpal.py ............                                        [100%]
+
+============================== 12 passed in 0.07s ==============================
 ```
+
+**Confidence Level:** ★★★★☆ (4/5)
+
+The core scheduling behaviors are covered and all 12 tests pass. Additional
+integration and UI testing would be needed for complete system confidence.
 
 ## 📐 Smarter Scheduling
 
