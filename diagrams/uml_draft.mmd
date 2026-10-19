@@ -1,0 +1,60 @@
+classDiagram
+    class Owner {
+        +String name
+        +int available_minutes
+        +String preferences
+        +update_availability(int minutes)
+        +set_preferences(String preferences)
+    }
+
+    class Pet {
+        +String name
+        +String species
+        +String breed
+        +int age
+        +Owner owner
+        +add_task(CareTask task)
+        +remove_task(CareTask task)
+        +list_tasks()
+    }
+
+    class CareTask {
+        +String name
+        +int duration_minutes
+        +String priority
+        +String category
+        +String recurrence
+        +bool completed
+        +mark_complete()
+        +update_details()
+        +is_valid()
+    }
+
+    class DailyPlan {
+        +Pet pet
+        +List~CareTask~ scheduled_tasks
+        +int available_minutes
+        +int remaining_minutes
+        +add_task(CareTask task)
+        +remove_task(CareTask task)
+        +calculate_total_time()
+        +display_plan()
+    }
+
+    class Scheduler {
+        +List~CareTask~ tasks
+        +String owner_constraints
+        +Pet pet
+        +int daily_time_limit
+        +sort_tasks_by_priority()
+        +filter_tasks_by_time()
+        +generate_plan()
+        +explain_choices()
+    }
+
+    Owner "1" --> "1..*" Pet : cares for
+    Pet "1" --> "0..*" CareTask : has
+    Scheduler --> Owner : uses constraints from
+    Scheduler --> Pet : plans care for
+    Scheduler --> DailyPlan : generates
+    DailyPlan "1" o-- "0..*" CareTask : schedules

@@ -7,6 +7,8 @@
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
+The initial design centered on three core actions for the user. First, the user can enter basic information about themselves and their pet. Next, the user can add or edit pet-care tasks, including each task's duration and priority. Finally, the user can generate and review a daily care plan that organizes tasks according to the time available, their priorities, and other preferences.
+
 **b. Design changes**
 
 - Did your design change during implementation?
