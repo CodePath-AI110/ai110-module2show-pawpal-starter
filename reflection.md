@@ -28,6 +28,8 @@ The initial design included five classes. `Owner` stores the owner's information
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
 
+The scheduler checks for tasks with the exact same start time rather than detecting every possible overlap between task durations. This approach is simpler to implement and gives the owner a clear warning when two tasks are scheduled at the same time. It is reasonable for this project because the scheduler is intended to provide basic planning support, but a future version could compare each task's start and end times to detect partial overlaps as well.
+
 ---
 
 ## 3. AI Collaboration

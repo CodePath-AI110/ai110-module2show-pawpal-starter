@@ -77,14 +77,14 @@ Sample test output:
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
+PawPal+ includes several algorithms that make daily planning more useful for a pet owner:
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Scheduler.sort_by_time()` | Returns tasks ordered from shortest to longest duration using the task's `time` attribute. The scheduler also uses `Scheduler.sort_tasks_by_priority()` when building a daily plan. |
+| Filtering | `Scheduler.filter_tasks()` and `Scheduler.filter_tasks_by_time()` | Filters tasks by pet name and completion status. Daily plan generation also skips completed, future-dated, or over-limit tasks. |
+| Conflict detection | `Scheduler.detect_conflicts()` | Returns warning messages when active tasks for the same or different pets have the same `start_time`. It reports warnings instead of stopping the program. |
+| Recurring tasks | `Task.mark_complete()`, `Pet.mark_task_complete()`, and `Scheduler.mark_task_complete()` | Completing a daily task creates the next occurrence one day later. Completing a weekly task creates the next occurrence seven days later using `timedelta`. |
 
 ## 📸 Demo Walkthrough
 
